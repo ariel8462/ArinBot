@@ -1,9 +1,6 @@
 import discord
-from discord import utils
-from discord import permissions
-from discord.errors import Forbidden, NotFound
+from discord.errors import Forbidden
 from discord.ext import commands
-from discord.ext.commands.errors import MemberNotFound
 from config import Config
 from utils.permissions import *
 from utils.bans import *
@@ -94,6 +91,34 @@ class Bans(commands.Cog):
             return
         await context.reply("Unbanned user!")
 
+
+    @commands.command()
+    async def gban(self, context: commands.Context, member: discord.Member = None, *, reason: str = None) -> None:
+        if context.author.id not in Config.devs and context.author.id not in Config.owners:
+            await context.reply("Sorry! this command is only for owners and devs")
+            return
+
+        if member is None:
+            await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}gban <username/id>\n")
+            return
+
+        if not await check_privs(context, member.id):
+            return
+
+        if member.id in Config.globally_banned:
+            await context.reply("The user is already globally banned")
+            return
+        
+        for guild in self.client.guilds:
+            try:
+                await guild.ban(member)
+            except Forbidden:
+                continue
+            except Exception as e:
+                await context.reply(e)
+        
+        Config.globally_banned.append(member.id)
+        await context.reply(f"Banned {member.name} globally")
 
 def setup(client: commands.Bot):
     client.add_cog(Bans(client))

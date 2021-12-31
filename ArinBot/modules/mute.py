@@ -1,7 +1,6 @@
 import discord
 from discord.errors import Forbidden
 from discord.ext import commands
-from discord.ext.commands.core import command
 from utils.permissions import *
 from config import Config
 
@@ -67,7 +66,7 @@ class Mute(commands.Cog):
         muted_role: discord.role.Role = next((r for r in context.guild.roles if r.name == f"muted-{Config.BOT_NAME}"), None)
 
         if muted_role:
-            await context.reply("Role already exists")
+            await context.reply("The role already exists")
             return
         else:
             muted_role = await guild.create_role(name=f"muted-{Config.BOT_NAME}", permissions=discord.Permissions(2147746368))

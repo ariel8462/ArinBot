@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import feedparser
 
-# to do - mute, tmute, unmute (Work in Progress)
+# to do - make asynchronous
 class FreeOnEpic(commands.Cog):
     def __init__(self, client: commands.Bot):
         self.client = client

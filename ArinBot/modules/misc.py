@@ -11,16 +11,16 @@ class Misc(commands.Cog):
     @commands.command()
     async def disabled(self, context: commands.Context) -> None:
         commands = self.client.commands
-        final_string: str = "The disabled commands are:\n"
+        diabled_commands_string: str = "The disabled commands are:\n"
 
         for command in commands:
             if not command.enabled:
-                final_string += f"\t`{Config.COMMAND_PREFIX}{command.name}`\n"
-        if not final_string:
+                diabled_commands_string += f"\t`{Config.COMMAND_PREFIX}{command.name}`\n"
+        if not diabled_commands_string:
             await context.reply("No disabled commands")
             return
 
-        await context.reply(final_string)
+        await context.reply(diabled_commands_string)
 
     @commands.command()
     @commands.has_permissions(manage_nicknames=True)
@@ -46,6 +46,10 @@ class Misc(commands.Cog):
 
     @commands.command()
     async def ping(self, context: commands.Context) -> None:
+        #allowing only owners and devs to use ping command, avoiding spam
+        if context.author.id not in Config.devs and context.author.id not in Config.owners:
+            return
+
         start_time = time.time()
         message = await context.send("Pinging...")
         end_time = time.time()
