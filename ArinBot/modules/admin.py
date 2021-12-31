@@ -4,12 +4,13 @@ from discord.ext import commands
 from config import Config
 from utils.permissions import *
 
+#enable and disable do it across the whole bot, not only one server, fix later
 class Admin(commands.Cog):
     def __init__(self, client: commands.Bot):
         self.client = client
 
     @commands.command()
-    @commands.has_permissions(administrator=True)
+    @commands.check(is_sudo)
     async def disable(self, context: commands.Context, command_name: str = None) -> None:
         if command_name is None:
             await context.reply(f"Missing argument - {Config.COMMAND_PREFIX}disable <command name>")
@@ -29,7 +30,7 @@ class Admin(commands.Cog):
         await context.reply("Disabled command successfully")
 
     @commands.command()
-    @commands.has_permissions(administrator=True)
+    @commands.check(is_sudo)
     async def enable(self, context: commands.Context, command_name: str = None) -> None:
         if command_name is None:
             await context.reply(f"Missing argument - {Config.COMMAND_PREFIX}enable <command name>")
@@ -47,6 +48,12 @@ class Admin(commands.Cog):
 
         command.enabled = not command.enabled
         await context.reply("Enabled command successfully")
+
+    @commands.command()
+    @commands.check(is_sudo)
+    async def load(self, context: commands.Context, extension: str):
+        #to do - load extension
+        pass
 
 
 def setup(client: commands.Bot):

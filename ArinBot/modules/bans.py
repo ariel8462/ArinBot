@@ -10,8 +10,10 @@ class Bans(commands.Cog):
     def __init__(self, client: commands.Bot):
         self.client = client
 
+    # test tomorrow with daniel, if works good - add for kick and unban as well
     @commands.command()
-    @commands.has_permissions(ban_members=True)
+    #commands.has_permissions(ban_members=True)
+    @commands.check(can_ban)
     async def ban(self, context: commands.Context, member: discord.Member = None, *, reason: str = "Reason not specified") -> None:
         if context.message.reference is not None:
             message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
@@ -24,9 +26,12 @@ class Bans(commands.Cog):
         if not await check_privs(context, member.id):
             return
 
-        if await is_banned(context, member):
-            await context.reply("User is already banned!")
-            return
+        try:
+            if await is_banned(context, member):
+                await context.reply("User is already banned!")
+                return
+        except TypeError:
+            pass
 
         try:
             if type(member) is discord.user.User:
@@ -76,10 +81,13 @@ class Bans(commands.Cog):
         if member is None:
             await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}unban <username/id>\n{Config.COMMAND_PREFIX}unban as a reply")
             return
-        
-        if not await is_banned(context, member):
-            await context.reply("The user is not even banned!")
-            return
+
+        try:
+            if not await is_banned(context, member):
+                await context.reply("The user is not even banned!")
+                return
+        except TypeError:
+            pass
 
         try:
             if type(member) is discord.user.User:
@@ -93,11 +101,8 @@ class Bans(commands.Cog):
 
 
     @commands.command()
+    @commands.check(is_sudo)
     async def gban(self, context: commands.Context, member: discord.Member = None, *, reason: str = None) -> None:
-        if context.author.id not in Config.devs and context.author.id not in Config.owners:
-            await context.reply("Sorry! this command is only for owners and devs")
-            return
-
         if member is None:
             await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}gban <username/id>\n")
             return

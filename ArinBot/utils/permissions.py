@@ -3,11 +3,20 @@ from discord import member
 from discord.ext import commands
 from config import Config
 
+def is_sudo(context: commands.context) -> bool:
+    return context.author.id in Config.owners or context.author.id in Config.devs
+
 def is_owner(member_id: int) -> bool:
     return member_id in Config.owners
 
 def is_dev(member_id: int) -> bool:
     return member_id in Config.devs
+
+def can_ban(context: commands.Context) -> bool:
+    member: discord.Member = context.author
+    if member.guild_permissions.ban_members or is_sudo(context):
+        return True
+    return False
 
 async def check_privs(context: commands.Context, member_id: int) -> bool:
     #if user is unbannable/unkickable/whatever i.e. in list/db, return False - to add later (like disasters in saitama)
