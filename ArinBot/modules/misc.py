@@ -3,6 +3,7 @@ from discord.ext import commands
 from discord.errors import Forbidden
 from config import Config
 import time
+from utils.permissions import *
 
 class Misc(commands.Cog):
     def __init__(self, client: commands.Bot):
@@ -44,12 +45,10 @@ class Misc(commands.Cog):
     async def members(self,  context: commands.Context):
         await context.send(f"The server has {context.guild.member_count} members")
 
+    #allow only devs and owners to ping, in order to avoid spam
     @commands.command()
+    @commands.check(is_sudo)
     async def ping(self, context: commands.Context) -> None:
-        #allowing only owners and devs to use ping command, avoiding spam
-        if context.author.id not in Config.devs and context.author.id not in Config.owners:
-            return
-
         start_time = time.time()
         message = await context.send("Pinging...")
         end_time = time.time()

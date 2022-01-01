@@ -10,9 +10,7 @@ class Bans(commands.Cog):
     def __init__(self, client: commands.Bot):
         self.client = client
 
-    # test tomorrow with daniel, if works good - add for kick and unban as well
     @commands.command()
-    #commands.has_permissions(ban_members=True)
     @commands.check(can_ban)
     async def ban(self, context: commands.Context, member: discord.Member = None, *, reason: str = "Reason not specified") -> None:
         if context.message.reference is not None:
@@ -44,7 +42,7 @@ class Bans(commands.Cog):
         await context.reply("Banned user!")
 
     @commands.command()
-    @commands.has_permissions(kick_members=True)
+    @commands.check(can_kick)
     async def kick(self, context: commands.Context, member: discord.Member = None, *, reason: str = "Reason not specified") -> None:
         if context.message.reference is not None:
             message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
@@ -72,7 +70,7 @@ class Bans(commands.Cog):
         await context.reply("Kicked user!")
 
     @commands.command()
-    @commands.has_permissions(ban_members=True)
+    @commands.check(can_ban)
     async def unban(self,  context: commands.Context, member: discord.Member = None, *, reason=None) -> None:
         if context.message.reference is not None:
             message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
