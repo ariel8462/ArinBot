@@ -22,7 +22,6 @@ def can_kick(context: commands.Context) -> bool:
     return False
 
 async def check_privs(context: commands.Context, member_id: int) -> bool:
-    #if user is unbannable/unkickable/whatever i.e. in list/db, return False - to add later (like disasters in saitama)
     try:
         if member_id is context.author.id:
             await context.reply(f"You can't {context.command.name} your self")

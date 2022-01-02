@@ -37,7 +37,7 @@ class Bans(commands.Cog):
             else:
                 await member.ban(reason=reason)
         except Forbidden:
-            await context.reply("Not enough permissions to ban | or the user is an admin")
+            await context.reply("Not enough permissions to ban or the user is an admin")
             return
         await context.reply("Banned user!")
 
@@ -65,7 +65,7 @@ class Bans(commands.Cog):
             else:
                 await member.kick(reason=reason)
         except Forbidden:
-            await context.reply("Not enough permissions to kick | or the user is an admin")
+            await context.reply("Not enough permissions to kick or the user is an admin")
             return
         await context.reply("Kicked user!")
 

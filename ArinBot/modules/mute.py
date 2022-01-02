@@ -28,7 +28,7 @@ class Mute(commands.Cog):
         try:
             await member.add_roles(muted_role, reason=reason)
         except Forbidden:
-            await context.reply("Not enough permissions to mute | or the user is an admin")
+            await context.reply("Not enough permissions to mute or the user is an admin")
             return
         await context.reply("Muted user!")
 
@@ -55,7 +55,7 @@ class Mute(commands.Cog):
         try:
             await member.remove_roles(muted_role, reason=reason)
         except Forbidden:
-            await context.reply("Not enough permissions to mute | or the user is an admin")
+            await context.reply("Not enough permissions to mute or the user is an admin")
             return
         await context.reply("Unmuted user!")
         

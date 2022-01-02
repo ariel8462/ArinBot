@@ -29,7 +29,7 @@ class Misc(commands.Cog):
         try:
             await member.edit(nick=nick)
         except Forbidden:
-            await context.reply("Not enough permissions to change nickname | or the user is an admin")
+            await context.reply("Not enough permissions to change nickname or the user is an admin")
             return
         except Exception as e:
             await context.reply(e)

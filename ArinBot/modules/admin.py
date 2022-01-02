@@ -78,17 +78,5 @@ class Admin(commands.Cog):
         except Exception as e:
             await context.send(e)
 
-    @commands.command()
-    @commands.has_permissions(administrator=True)
-    async def change_nickname(self, context: commands.Context, *, nick: str = None) -> None:
-        try:
-            await context.guild.me.edit(nick=nick)
-            if nick is None:
-                await context.send("Changed nickname back to default")
-            else:
-                await context.send(f"Changed nickname to **{nick}**")
-        except Exception as e:
-            await context.send(e)
-
 def setup(client: commands.Bot):
     client.add_cog(Admin(client))
