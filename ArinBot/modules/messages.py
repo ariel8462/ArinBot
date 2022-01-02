@@ -88,7 +88,7 @@ class Messages(commands.Cog):
             message_id = context.message.reference.message_id
         
         if not message_id:
-            await context.reply(f"No message id spcified:\n{Config.COMMAND_PREFIX}unpin <message id>\n{Config.COMMAND_PREFIX}unpin as a reply to a message")
+            await context.reply(f"No message id spcified:\n{Config.COMMAND_PREFIX}delete <message id>\n{Config.COMMAND_PREFIX}delete as a reply to a message")
             return
         
         try:
