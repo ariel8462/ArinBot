@@ -97,7 +97,6 @@ class Bans(commands.Cog):
             return
         await context.reply("Unbanned user!")
 
-
     @commands.command()
     @commands.check(is_sudo)
     async def gban(self, context: commands.Context, member: discord.Member = None, *, reason: str = None) -> None:

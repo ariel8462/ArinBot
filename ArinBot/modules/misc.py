@@ -25,7 +25,7 @@ class Misc(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(manage_nicknames=True)
-    async def nickname(self, context: commands.Context, member: discord.Member, nick: str = None) -> None:
+    async def nickname(self, context: commands.Context, member: discord.Member, *, nick: str = None) -> None:
         try:
             await member.edit(nick=nick)
         except Forbidden:
@@ -64,6 +64,10 @@ class Misc(commands.Cog):
             await context.send(text)
         else:
             await context.reply(f"Text to echo not specified:\n{Config.COMMAND_PREFIX}echo <text>")
+
+    @commands.command()
+    async def invite(self, context: commands.Context):
+        await context.reply(discord.utils.oauth_url(self.client.user.id))
 
 
 def setup(client: commands.Bot):

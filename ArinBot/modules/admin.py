@@ -1,5 +1,4 @@
 import discord
-from discord.errors import Forbidden
 from discord.ext import commands
 from config import Config
 from utils.permissions import *
@@ -71,12 +70,22 @@ class Admin(commands.Cog):
 
     @commands.command()
     @commands.check(is_owner)
-    async def change_username(self, context: commands.Context, username: str) -> None:
+    async def change_username(self, context: commands.Context, *, username: str) -> None:
         try:
             await self.client.user.edit(username=username)
             await context.send(f"Changed username to **{username}**")
         except Exception as e:
             await context.send(e)
+
+    @commands.command(aliases=["dm"])
+    @commands.check(is_owner)
+    async def pm(self, context: commands.Context, member: discord.Member, *, message: str) -> None:
+        try:
+            await member.send(message)
+            await context.send(f"Successfully sent a private message to {member.name}")
+        except:
+            await context.send("Failed, maybe he blocked pm's from unknown people")
+
 
 def setup(client: commands.Bot):
     client.add_cog(Admin(client))
