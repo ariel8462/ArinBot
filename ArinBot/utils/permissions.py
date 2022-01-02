@@ -3,6 +3,9 @@ from discord import member
 from discord.ext import commands
 from config import Config
 
+def is_owner(context: commands.Context) -> bool:
+    return context.author.id in Config.owners
+
 def is_sudo(context: commands.context) -> bool:
     return context.author.id in Config.owners or context.author.id in Config.devs
 

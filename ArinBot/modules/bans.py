@@ -107,10 +107,6 @@ class Bans(commands.Cog):
 
         if not await check_privs(context, member.id):
             return
-
-        if member.id in Config.globally_banned:
-            await context.reply("The user is already globally banned")
-            return
         
         for guild in self.client.guilds:
             try:
@@ -120,7 +116,6 @@ class Bans(commands.Cog):
             except Exception as e:
                 await context.reply(e)
         
-        Config.globally_banned.append(member.id)
         await context.reply(f"Banned {member.name} globally")
 
 def setup(client: commands.Bot):

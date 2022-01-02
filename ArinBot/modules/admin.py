@@ -51,10 +51,44 @@ class Admin(commands.Cog):
 
     @commands.command()
     @commands.check(is_sudo)
-    async def load(self, context: commands.Context, extension: str):
-        #to do - load extension
-        pass
+    async def load(self, context: commands.Context, extension: str) -> None:
+        try:
+            self.client.load_extension(f"modules.{extension}")
+        except Exception as e:
+            await context.reply(e)
+            return
+        await context.send(f"Loaded extension **{extension}.py**")
 
+    @commands.command()
+    @commands.check(is_sudo)
+    async def unload(self, context: commands.Context, extension: str) -> None:
+        try:
+            self.client.unload_extension(f"modules.{extension}")
+        except Exception as e:
+            await context.send(e)
+            return
+        await context.send(f"Unloaded extension **{extension}.py**")
+
+    @commands.command()
+    @commands.check(is_owner)
+    async def change_username(self, context: commands.Context, username: str) -> None:
+        try:
+            await self.client.user.edit(username=username)
+            await context.send(f"Changed username to **{username}**")
+        except Exception as e:
+            await context.send(e)
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def change_nickname(self, context: commands.Context, *, nick: str = None) -> None:
+        try:
+            await context.guild.me.edit(nick=nick)
+            if nick is None:
+                await context.send("Changed nickname back to default")
+            else:
+                await context.send(f"Changed nickname to **{nick}**")
+        except Exception as e:
+            await context.send(e)
 
 def setup(client: commands.Bot):
     client.add_cog(Admin(client))
