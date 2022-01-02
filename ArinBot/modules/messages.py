@@ -1,0 +1,108 @@
+import discord
+from discord.ext import commands
+from config import Config
+from discord.errors import Forbidden, NotFound, HTTPException
+
+class Messages(commands.Cog):
+    def __init__(self, client: commands.Bot):
+        self.client = client
+    
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def pin(self, context: commands.Context, *, message_id: int = None) -> None:
+        if context.message.reference is not None:
+            message_id = context.message.reference.message_id
+        
+        if not message_id:
+            await context.reply(f"No message id spcified:\n{Config.COMMAND_PREFIX}pin <message id>\n{Config.COMMAND_PREFIX}pin as a reply to a message")
+            return
+        
+        try:
+            message: discord.Message = await context.channel.fetch_message(message_id)
+        except NotFound:
+            await context.reply("No such message found, are you sure the id is correct?")
+        
+        if message.pinned:
+            await context.reply("The message is already pinned")
+            return
+
+        try:
+            await message.pin()
+        except NotFound:
+            await context.reply("Message was not found")
+        except Forbidden:
+            await context.reply("I don't have enough permissions to pin messages :(")
+        except HTTPException:
+            await context.reply("Failed, check if there are over 50 pinned messages")
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def unpin(self, context: commands.Context, *, message_id: int = None) -> None:
+        if context.message.reference is not None:
+            message_id = context.message.reference.message_id
+        
+        if not message_id:
+            await context.reply(f"No message id spcified:\n{Config.COMMAND_PREFIX}unpin <message id>\n{Config.COMMAND_PREFIX}unpin as a reply to a message")
+            return
+        
+        try:
+            message: discord.Message = await context.channel.fetch_message(message_id)
+        except NotFound:
+            await context.reply("No such message found, are you sure the id is correct?")
+        
+        if not message.pinned:
+            await context.reply("The message is not even pinned")
+            return
+
+        try:
+            await message.unpin()
+            await context.reply("Unpinned message successfully")
+        except NotFound:
+            await context.reply("Message was not found")
+        except Forbidden:
+            await context.reply("I don't have enough permissions to unpin messages :(")
+        except HTTPException:
+            await context.reply("Failed to unpin")
+    
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def unpin_all(self, context: commands.Context) -> None:
+        pinned_messages = await context.channel.pins()
+
+        try:
+            for message in pinned_messages:
+                await message.unpin()
+        except Forbidden:
+            await context.reply("I don't have enough permissions to unpin messages :(")
+            return
+        except HTTPException:
+            await context.reply("Failed to unpin all messages")
+            return
+        
+        await context.reply("Successfully unpinned all messages")
+
+    @commands.command(aliases=["del"])
+    @commands.has_permissions(administrator=True)
+    async def delete(self, context: commands.Context, *, message_id: int = None) -> None:
+        if context.message.reference is not None:
+            message_id = context.message.reference.message_id
+        
+        if not message_id:
+            await context.reply(f"No message id spcified:\n{Config.COMMAND_PREFIX}unpin <message id>\n{Config.COMMAND_PREFIX}unpin as a reply to a message")
+            return
+        
+        try:
+            message: discord.Message = await context.channel.fetch_message(message_id)
+        except NotFound:
+            await context.reply("No such message found, are you sure the id is correct?")
+
+        try:
+            await message.delete()
+        except Forbidden:
+            await context.reply("I don't have enough permissions to delete messages :(")
+        except HTTPException:
+            await context.reply("Failed to delete the message")
+
+
+def setup(client: commands.Bot):
+    client.add_cog(Messages(client))

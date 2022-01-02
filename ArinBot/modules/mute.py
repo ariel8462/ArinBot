@@ -12,7 +12,7 @@ class Mute(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_roles=True)
     async def mute(self, context: commands.Context, member: discord.Member = None, *, reason: str = "Reason not specified") -> None:
-        if member is None:
+        if not member:
             await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}mute <username/id>")
             return
 
@@ -35,7 +35,7 @@ class Mute(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_roles=True)
     async def unmute(self, context: commands.Context, member: discord.Member = None, *, reason: str = "Reason not specified") -> None:
-        if member is None:
+        if not member:
             await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}unmute <username/id>")
             return
 

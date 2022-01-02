@@ -35,7 +35,7 @@ class Misc(commands.Cog):
             await context.reply(e)
             return
 
-        if nick is None:
+        if not nick:
             await context.reply(f"Resetted the nickname of {member.name}")
             return
 
@@ -54,6 +54,16 @@ class Misc(commands.Cog):
         end_time = time.time()
         ping_time = round((end_time - start_time) * 1000, 3)
         await message.edit(content=str(ping_time) + " ms")
+
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def echo(self, context: commands.Context, *, text: str = None) -> None:
+        if text:
+            await context.message.delete()
+            await context.send(text)
+        else:
+            await context.reply(f"Text to echo not specified:\n{Config.COMMAND_PREFIX}echo <text>")
 
 
 def setup(client: commands.Bot):

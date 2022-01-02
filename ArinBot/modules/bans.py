@@ -17,7 +17,7 @@ class Bans(commands.Cog):
             message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
             member: discord.User = message.author
 
-        if member is None:
+        if not member:
             await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}ban <username/id>\n{Config.COMMAND_PREFIX}ban as a reply")
             return
 
@@ -48,7 +48,7 @@ class Bans(commands.Cog):
             message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
             member: discord.User = message.author
 
-        if member is None:
+        if not member:
             await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}kick <username/id>\n{Config.COMMAND_PREFIX}kick as a reply")
             return
 
@@ -57,7 +57,7 @@ class Bans(commands.Cog):
 
         try:
             if type(member) is discord.user.User:
-                if context.guild.get_member(member.id) is None:
+                if not context.guild.get_member(member.id):
                     await context.reply("The user is not even in the server")
                     return
                 else:
@@ -76,7 +76,7 @@ class Bans(commands.Cog):
             message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
             member: discord.User = message.author
             
-        if member is None:
+        if not member:
             await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}unban <username/id>\n{Config.COMMAND_PREFIX}unban as a reply")
             return
 
@@ -101,7 +101,7 @@ class Bans(commands.Cog):
     @commands.command()
     @commands.check(is_sudo)
     async def gban(self, context: commands.Context, member: discord.Member = None, *, reason: str = None) -> None:
-        if member is None:
+        if not member:
             await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}gban <username/id>\n")
             return
 

@@ -6,6 +6,7 @@ from utils.default import *
 
 #Change name later - from ArinBot to something normal lol
 #make some of the messages embeds (e.g. gban)
+#add help to all commands by using """""" under the command function
 class ArinBot(commands.Cog):
     def __init__(self, client: commands.Bot, *args, **kwargs):
         self.client = client

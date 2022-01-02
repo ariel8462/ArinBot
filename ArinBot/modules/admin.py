@@ -12,13 +12,13 @@ class Admin(commands.Cog):
     @commands.command()
     @commands.check(is_sudo)
     async def disable(self, context: commands.Context, command_name: str = None) -> None:
-        if command_name is None:
+        if not command_name:
             await context.reply(f"Missing argument - {Config.COMMAND_PREFIX}disable <command name>")
             return
         
         command: commands.Command = self.client.get_command(command_name)
 
-        if command is None:
+        if not command:
             await context.reply("No such command exists, check your spelling")
             return
         
@@ -32,13 +32,13 @@ class Admin(commands.Cog):
     @commands.command()
     @commands.check(is_sudo)
     async def enable(self, context: commands.Context, command_name: str = None) -> None:
-        if command_name is None:
+        if not command_name:
             await context.reply(f"Missing argument - {Config.COMMAND_PREFIX}enable <command name>")
             return
         
         command: commands.Command = self.client.get_command(command_name)
 
-        if command is None:
+        if not command:
             await context.reply("No such command exists, check your spelling")
             return
         

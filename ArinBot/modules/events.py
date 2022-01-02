@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord.ext.commands.errors import CommandNotFound, DisabledCommand, MissingPermissions
+from config import Config
 
 class Events(commands.Cog):
     def __init__(self, client: commands.Bot):
@@ -17,6 +18,11 @@ class Events(commands.Cog):
         else:
             await context.reply(error)
         return
+
+    @commands.Cog.listener()
+    async def on_command_completion(self, context: commands.Context) -> None:
+        """On each command completion, prints details about the command author in order to help in cases of spam"""
+        print(f"{context.author.name} ({context.author.id}) used {Config.COMMAND_PREFIX}{context.command}")
 
 
 def setup(client: commands.Bot):
