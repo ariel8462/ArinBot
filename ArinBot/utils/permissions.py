@@ -22,6 +22,7 @@ def can_kick(context: commands.Context) -> bool:
     return False
 
 async def check_privs(context: commands.Context, member_id: int) -> bool:
+    """Check if the bot can act on this user"""
     try:
         if member_id is context.author.id:
             await context.reply(f"You can't {context.command.name} your self")

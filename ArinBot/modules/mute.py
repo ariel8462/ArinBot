@@ -12,6 +12,7 @@ class Mute(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_roles=True)
     async def mute(self, context: commands.Context, member: discord.Member = None, *, reason: str = "Reason not specified") -> None:
+        """Mutes the specified user"""
         if not member:
             await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}mute <username/id>")
             return
@@ -35,6 +36,7 @@ class Mute(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_roles=True)
     async def unmute(self, context: commands.Context, member: discord.Member = None, *, reason: str = "Reason not specified") -> None:
+        """Unmutes the specified user"""
         if not member:
             await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}unmute <username/id>")
             return
@@ -62,6 +64,7 @@ class Mute(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_roles=True)
     async def addrolemute(self, context: commands.Context) -> None:
+        """Adds the role 'muted-<BOT_NAME>' for future mutes"""
         guild: discord.Guild = context.guild
         muted_role: discord.role.Role = next((r for r in context.guild.roles if r.name == f"muted-{Config.BOT_NAME}"), None)
 

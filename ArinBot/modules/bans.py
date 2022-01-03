@@ -13,6 +13,7 @@ class Bans(commands.Cog):
     @commands.command()
     @commands.check(can_ban)
     async def ban(self, context: commands.Context, member: discord.Member = None, *, reason: str = "Reason not specified") -> None:
+        """Bans the specified user"""
         if context.message.reference is not None:
             message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
             member: discord.User = message.author
@@ -44,6 +45,7 @@ class Bans(commands.Cog):
     @commands.command()
     @commands.check(can_kick)
     async def kick(self, context: commands.Context, member: discord.Member = None, *, reason: str = "Reason not specified") -> None:
+        """Kicks the specified user"""
         if context.message.reference is not None:
             message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
             member: discord.User = message.author
@@ -72,6 +74,7 @@ class Bans(commands.Cog):
     @commands.command()
     @commands.check(can_ban)
     async def unban(self,  context: commands.Context, member: discord.Member = None, *, reason=None) -> None:
+        """Unbans the specified user"""
         if context.message.reference is not None:
             message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
             member: discord.User = message.author
@@ -100,6 +103,7 @@ class Bans(commands.Cog):
     @commands.command()
     @commands.check(is_sudo)
     async def gban(self, context: commands.Context, member: discord.Member = None, *, reason: str = None) -> None:
+        """Bans a certain user across the whole bot, only avaiable to devs and owners"""
         if not member:
             await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}gban <username/id>\n")
             return

@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from discord.ext.commands.errors import CommandNotFound, DisabledCommand, MissingPermissions
+from discord.ext.commands.errors import CheckFailure, CommandNotFound, DisabledCommand, MissingPermissions
 from config import Config
 
 class Events(commands.Cog):
@@ -14,6 +14,8 @@ class Events(commands.Cog):
         elif isinstance(error, MissingPermissions):
             await context.reply("You don't have enough permissions for this command.")
         elif isinstance(error, DisabledCommand):
+            pass
+        elif isinstance(error, CheckFailure):
             pass
         else:
             await context.reply(error)

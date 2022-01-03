@@ -11,6 +11,7 @@ class Admin(commands.Cog):
     @commands.command()
     @commands.check(is_sudo)
     async def disable(self, context: commands.Context, command_name: str = None) -> None:
+        """Disables the specified command, only avaiable to devs and owners"""
         if not command_name:
             await context.reply(f"Missing argument - {Config.COMMAND_PREFIX}disable <command name>")
             return
@@ -31,6 +32,7 @@ class Admin(commands.Cog):
     @commands.command()
     @commands.check(is_sudo)
     async def enable(self, context: commands.Context, command_name: str = None) -> None:
+        """Enables the specified command, only avaiable to devs and owners"""
         if not command_name:
             await context.reply(f"Missing argument - {Config.COMMAND_PREFIX}enable <command name>")
             return
@@ -51,6 +53,7 @@ class Admin(commands.Cog):
     @commands.command()
     @commands.check(is_sudo)
     async def load(self, context: commands.Context, extension: str) -> None:
+        """Loads a module, only avaiable to devs and owners"""
         try:
             self.client.load_extension(f"modules.{extension}")
         except Exception as e:
@@ -61,6 +64,7 @@ class Admin(commands.Cog):
     @commands.command()
     @commands.check(is_sudo)
     async def unload(self, context: commands.Context, extension: str) -> None:
+        """Unloads a module, only avaiable to devs and owners"""
         try:
             self.client.unload_extension(f"modules.{extension}")
         except Exception as e:
@@ -71,6 +75,7 @@ class Admin(commands.Cog):
     @commands.command()
     @commands.check(is_owner)
     async def change_username(self, context: commands.Context, *, username: str) -> None:
+        """Changes the username of the bot, only available to the owner"""
         try:
             await self.client.user.edit(username=username)
             await context.send(f"Changed username to **{username}**")
@@ -80,6 +85,7 @@ class Admin(commands.Cog):
     @commands.command(aliases=["dm"])
     @commands.check(is_owner)
     async def pm(self, context: commands.Context, member: discord.Member, *, message: str) -> None:
+        """Sends a private message to the specified user, only available to the owner"""
         try:
             await member.send(message)
             await context.send(f"Successfully sent a private message to {member.name}")

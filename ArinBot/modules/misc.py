@@ -11,6 +11,7 @@ class Misc(commands.Cog):
     
     @commands.command()
     async def disabled(self, context: commands.Context) -> None:
+        """Shows all disabled commands"""
         commands = self.client.commands
         diabled_commands_string: str = "The disabled commands are:\n"
 
@@ -26,6 +27,7 @@ class Misc(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_nicknames=True)
     async def nickname(self, context: commands.Context, member: discord.Member, *, nick: str = None) -> None:
+        """Changes the nickname of the specified user, resets the nickname by not specifying one"""
         try:
             await member.edit(nick=nick)
         except Forbidden:
@@ -43,12 +45,13 @@ class Misc(commands.Cog):
 
     @commands.command(aliases=["count", "member_count"])
     async def members(self,  context: commands.Context):
+        """Sends the member count"""
         await context.send(f"The server has {context.guild.member_count} members")
 
-    #allow only devs and owners to ping, in order to avoid spam
     @commands.command()
     @commands.check(is_sudo)
     async def ping(self, context: commands.Context) -> None:
+        """Pings, Checks the connection - only available for devs and owners"""
         start_time = time.time()
         message = await context.send("Pinging...")
         end_time = time.time()
@@ -59,6 +62,7 @@ class Misc(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def echo(self, context: commands.Context, *, text: str = None) -> None:
+        """Echos the text you write after /echo"""
         if text:
             await context.message.delete()
             await context.send(text)
@@ -67,6 +71,7 @@ class Misc(commands.Cog):
 
     @commands.command()
     async def invite(self, context: commands.Context):
+        """Sends a bot invite link"""
         await context.reply(discord.utils.oauth_url(self.client.user.id))
 
 

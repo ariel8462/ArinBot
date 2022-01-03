@@ -10,6 +10,7 @@ class Messages(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def pin(self, context: commands.Context, *, message_id: int = None) -> None:
+        """Pins a message"""
         if context.message.reference is not None:
             message_id = context.message.reference.message_id
         
@@ -38,6 +39,7 @@ class Messages(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def unpin(self, context: commands.Context, *, message_id: int = None) -> None:
+        """Unpins a message"""
         if context.message.reference is not None:
             message_id = context.message.reference.message_id
         
@@ -67,6 +69,7 @@ class Messages(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def unpin_all(self, context: commands.Context) -> None:
+        """Unpins all messages in the current channel"""
         pinned_messages = await context.channel.pins()
 
         try:
@@ -84,6 +87,7 @@ class Messages(commands.Cog):
     @commands.command(aliases=["del"])
     @commands.has_permissions(administrator=True)
     async def delete(self, context: commands.Context, *, message_id: int = None) -> None:
+        """Deletes the specified message"""
         if context.message.reference is not None:
             message_id = context.message.reference.message_id
         
