@@ -92,6 +92,13 @@ class Admin(commands.Cog):
         except:
             await context.send("Failed, maybe he blocked pm's from unknown people")
 
+    @commands.command()
+    @commands.check(is_owner)
+    async def leave(self, context: commands.Context):
+        try:
+            await context.guild.leave()
+        except Exception as e:
+            await context.send(e)
 
 def setup(client: commands.Bot):
     client.add_cog(Admin(client))

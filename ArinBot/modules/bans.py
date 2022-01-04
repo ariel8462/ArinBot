@@ -25,12 +25,9 @@ class Bans(commands.Cog):
         if not await check_privs(context, member.id):
             return
 
-        try:
-            if await is_banned(context, member):
-                await context.reply("User is already banned!")
-                return
-        except TypeError:
-            pass
+        if await is_banned(context, member):
+            await context.reply("The user is already banned")
+            return
 
         try:
             if type(member) is discord.user.User:
@@ -83,12 +80,9 @@ class Bans(commands.Cog):
             await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}unban <username/id>\n{Config.COMMAND_PREFIX}unban as a reply")
             return
 
-        try:
-            if not await is_banned(context, member):
-                await context.reply("The user is not even banned!")
-                return
-        except TypeError:
-            pass
+        if not await is_banned(context, member):
+            await context.reply("The user is not even banned")
+            return
 
         try:
             if type(member) is discord.user.User:

@@ -44,6 +44,10 @@ class Fun(commands.Cog):
         reply = slap_template.format(user1=user1, user2=user2, item=item, hits=hit, throws=throw)
         await context.send(reply)
 
+    @commands.command()
+    async def runs(self, context: commands.Context) -> None:
+        """Sends a 'runs' string"""
+        await context.send(random.choice(fun.RUN_STRINGS))
 
 def setup(client: commands.Bot):
     client.add_cog(Fun(client))

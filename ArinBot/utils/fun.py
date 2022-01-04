@@ -84,7 +84,6 @@ SLAP_TEMPLATES = (
     "{user2} was turned into a Jojo reference!",
     "{user1} hits {user2} with {item}.",
     "Round 2!..Ready? .. FIGHT!!",
-    "WhoPixel will oof {user2} to infinity and beyond.",
     "{user2} ate a bat and discovered a new disease.",
     "{user1} folded {user2} into a paper plane",
     "{user1} served {user2} some bat soup.",
@@ -146,4 +145,25 @@ HIT = (
     "smacks",
     "bashes",
     "pats"
+)
+
+RUN_STRINGS = (
+    "Now you see me, now you don't." "ε=ε=ε=ε=┌(;￣▽￣)┘",
+    "Get back here!",
+    "REEEEEEEEEEEEEEEEEE!!!!!!!",
+    "Look out for the wall!",
+    "Don't leave me alone with them!!",
+    "You've got company!",
+    "Chotto matte!",
+    "Yare yare daze",
+    "*Naruto run activated*",
+    "*Nezuko run activated*",
+    "Hey take responsibilty for what you just did!",
+    "May the odds be ever in your favour.",
+    "Run everyone, they just dropped a bomb 💣💣",
+    "And they disappeared forever, never to be seen again.",
+    "Legend has it, they're still running.",
+    "Hasta la vista, baby.",
+    "Ah, what a waste. I liked that one.",
+    "As The Doctor would say... RUN!",
 )
