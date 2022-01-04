@@ -28,14 +28,14 @@ class Bans(commands.Cog):
         if await is_banned(context, member):
             await context.reply("The user is already banned")
             return
-
+        
         try:
-            if type(member) is discord.user.User:
-                await context.guild.ban(member)
-            else:
-                await member.ban(reason=reason)
+            await context.guild.ban(member)
         except Forbidden:
             await context.reply("Not enough permissions to ban or the user is an admin")
+            return
+        except Exception as e:
+            await context.reply(e)
             return
         await context.reply("Banned user!")
 
@@ -53,18 +53,14 @@ class Bans(commands.Cog):
 
         if not await check_privs(context, member.id):
             return
-
+    
         try:
-            if type(member) is discord.user.User:
-                if not context.guild.get_member(member.id):
-                    await context.reply("The user is not even in the server")
-                    return
-                else:
-                    await context.guild.kick(member)
-            else:
-                await member.kick(reason=reason)
+            await context.guild.kick(member, reason=reason)
         except Forbidden:
             await context.reply("Not enough permissions to kick or the user is an admin")
+            return
+        except Exception as e:
+            await context.reply(e)
             return
         await context.reply("Kicked user!")
 
@@ -85,12 +81,12 @@ class Bans(commands.Cog):
             return
 
         try:
-            if type(member) is discord.user.User:
-                await context.guild.unban(member)
-            else:
-                await member.unban(reason=reason)
+            await context.guild.unban(member)
         except Forbidden:
             await context.reply("Not enough permissions to unban! assign me a better role")
+            return
+        except Exception as e:
+            await context.reply(e)
             return
         await context.reply("Unbanned user!")
 
