@@ -11,15 +11,11 @@ def is_sudo(context: commands.context) -> bool:
 
 def can_ban(context: commands.Context) -> bool:
     member: discord.Member = context.author
-    if member.guild_permissions.ban_members or is_sudo(context):
-        return True
-    return False
+    return member.guild_permissions.ban_members or is_sudo(context)
 
 def can_kick(context: commands.Context) -> bool:
     member: discord.Member = context.author
-    if member.guild_permissions.kick_members or is_sudo(context):
-        return True
-    return False
+    return member.guild_permissions.kick_members or is_sudo(context)
 
 async def check_privs(context: commands.Context, member_id: int) -> bool:
     """Check if the bot can act on this user"""

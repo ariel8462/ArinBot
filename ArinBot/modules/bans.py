@@ -5,7 +5,6 @@ from config import Config
 from utils.permissions import *
 from utils.bans import *
 
-#add temp ban
 class Bans(commands.Cog):
     def __init__(self, client: commands.Bot):
         self.client = client
@@ -92,8 +91,12 @@ class Bans(commands.Cog):
 
     @commands.command()
     @commands.check(is_sudo)
-    async def gban(self, context: commands.Context, member: discord.Member = None, *, reason: str = None) -> None:
+    async def gban(self, context: commands.Context, member: discord.Member = None, *, reason: str = "Gban - the user got globally banned") -> None:
         """Bans a certain user across the whole bot, only avaiable to devs and owners"""
+        if context.message.reference is not None:
+            message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
+            member: discord.User = message.author
+        
         if not member:
             await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}gban <username/id>\n")
             return
@@ -103,11 +106,12 @@ class Bans(commands.Cog):
         
         for guild in self.client.guilds:
             try:
-                await guild.ban(member)
+                await guild.ban(member, reason=reason)
             except Forbidden:
                 continue
             except Exception as e:
                 await context.reply(e)
+                return
         
         await context.reply(f"Banned {member.name} globally")
 

@@ -4,7 +4,6 @@ from discord.ext import commands
 from utils.permissions import *
 from config import Config
 
-# to do - tmute (Work in Progress)
 class Mute(commands.Cog):
     def __init__(self, client: commands.Bot):
         self.client = client
