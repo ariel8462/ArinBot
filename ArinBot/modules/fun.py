@@ -11,12 +11,12 @@ class Fun(commands.Cog):
     @commands.command()
     async def decide(self, context: commands.Context) -> None:
         """Decides. replies yes/no"""
-        await context.reply(random.choice(["yes", "no"]))
+        await context.reply(random.choice(["Yes", "No", "Maybe"]))
 
-    @commands.command(aliases=["coinflip"])
+    @commands.command(aliases=["toss"])
     async def coin(self, context: commands.Context) -> None:
         """Tosses a coin"""
-        await context.reply(random.choice(["head", "tails"]))
+        await context.reply(random.choice(["Heads", "Tails"]))
 
     @commands.command()
     async def slap(self, context: commands.Context, member: discord.Member = None) -> None:

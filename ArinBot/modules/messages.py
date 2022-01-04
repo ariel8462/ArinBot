@@ -8,7 +8,7 @@ class Messages(commands.Cog):
         self.client = client
     
     @commands.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_channels=True)
     async def pin(self, context: commands.Context, *, message_id: int = None) -> None:
         """Pins a message"""
         if context.message.reference is not None:
@@ -37,7 +37,7 @@ class Messages(commands.Cog):
             await context.reply("Failed, check if there are over 50 pinned messages")
 
     @commands.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_channels=True)
     async def unpin(self, context: commands.Context, *, message_id: int = None) -> None:
         """Unpins a message"""
         if context.message.reference is not None:
@@ -67,7 +67,7 @@ class Messages(commands.Cog):
             await context.reply("Failed to unpin")
     
     @commands.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_channels=True)
     async def unpin_all(self, context: commands.Context) -> None:
         """Unpins all messages in the current channel"""
         pinned_messages = await context.channel.pins()
@@ -85,7 +85,7 @@ class Messages(commands.Cog):
         await context.reply("Successfully unpinned all messages")
 
     @commands.command(aliases=["del"])
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_messages=True)
     async def delete(self, context: commands.Context, *, message_id: int = None) -> None:
         """Deletes the specified message"""
         if context.message.reference is not None:
@@ -106,6 +106,18 @@ class Messages(commands.Cog):
             await context.reply("I don't have enough permissions to delete messages :(")
         except HTTPException:
             await context.reply("Failed to delete the message")
+
+    @commands.command()
+    @commands.has_permissions(manage_messages=True)
+    async def purge(self, context: commands.Context, count: int) -> None:
+        try:
+            await context.message.delete()
+            await context.channel.purge(limit=count)
+        except Exception as e:
+            await context.reply(e)
+            return
+        
+        await context.send(f"Successfully purged **{count}** messages")
 
 
 def setup(client: commands.Bot):
