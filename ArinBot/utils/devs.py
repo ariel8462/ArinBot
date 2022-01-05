@@ -2,6 +2,7 @@ import json
 from config import Config
 
 def add_dev(member_id: int) -> None:
+    """Adds the dev, updates config"""
     Config.devs.append(member_id)
 
     with open("config.json", 'r+') as file:
@@ -12,6 +13,7 @@ def add_dev(member_id: int) -> None:
         file.truncate()
 
 def remove_dev(member_id: int) -> None:
+    """Removes the dev, updates config"""
     Config.devs.remove(member_id)
 
     with open("config.json", 'r+') as file:

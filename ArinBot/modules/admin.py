@@ -104,7 +104,8 @@ class Admin(commands.Cog):
 
     @commands.command()
     @commands.check(is_owner)
-    async def promote_dev(self, context: commands.Context, member: discord.Member = None):
+    async def promote_dev(self, context: commands.Context, member: discord.Member = None) -> None:
+        """Makes the specified user a dev"""
         if context.message.reference is not None:
             message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
             member: discord.User = message.author
@@ -122,7 +123,8 @@ class Admin(commands.Cog):
 
     @commands.command()
     @commands.check(is_owner)
-    async def demote_dev(self, context: commands.Context, member: discord.Member = None):
+    async def demote_dev(self, context: commands.Context, member: discord.Member = None) -> None:
+        """Demotes the specified user from being a dev"""
         if context.message.reference is not None:
             message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
             member: discord.User = message.author

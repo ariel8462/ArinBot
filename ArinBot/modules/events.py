@@ -26,10 +26,6 @@ class Events(commands.Cog):
         """On each command completion, prints details about the command author in order to help in cases of spam"""
         print(f"{context.author.name} ({context.author.id}) used {Config.COMMAND_PREFIX}{context.command}")
 
-    @commands.Cog.listener()
-    async def on_disconnect(self):
-        print("test")
-
 
 def setup(client: commands.Bot):
     client.add_cog(Events(client))

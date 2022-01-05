@@ -30,7 +30,7 @@ class Mute(commands.Cog):
         except Forbidden:
             await context.reply("Not enough permissions to mute or the user is an admin")
             return
-        await context.reply("Muted user!")
+        await context.reply(f"Successfully muted **{member.name}**")
 
     @commands.command()
     @commands.has_permissions(manage_roles=True)
@@ -58,7 +58,7 @@ class Mute(commands.Cog):
         except Forbidden:
             await context.reply("Not enough permissions to mute or the user is an admin")
             return
-        await context.reply("Unmuted user!")
+        await context.reply(f"Successfully unmuted **{member.name}**")
         
     @commands.command()
     @commands.has_permissions(manage_roles=True)
@@ -76,7 +76,7 @@ class Mute(commands.Cog):
         for channel in context.guild.channels:
             await channel.set_permissions(muted_role, send_messages=False)
 
-        await context.reply(f"Added role mute-{Config.BOT_NAME}")
+        await context.reply(f"Added the role **mute-{Config.BOT_NAME}**")
 
 
 def setup(client: commands.Bot):

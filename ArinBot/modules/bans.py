@@ -36,7 +36,7 @@ class Bans(commands.Cog):
         except Exception as e:
             await context.reply(e)
             return
-        await context.reply("Banned user!")
+        await context.reply(f"Banned **{member.name}** from the server")
 
     @commands.command()
     @commands.check(can_kick)
@@ -61,12 +61,16 @@ class Bans(commands.Cog):
         except Exception as e:
             await context.reply(e)
             return
-        await context.reply("Kicked user!")
+        await context.reply(f"Kicked **{member.name}** from the server")
 
     @commands.command()
     @commands.check(can_ban)
     async def unban(self,  context: commands.Context, member_id: int = None) -> None:
         """Unbans the specified user"""
+        if context.message.reference is not None:
+            message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
+            member_id = message.author.id
+
         if not member_id:
             await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}unban <member id>")
             return
@@ -85,7 +89,7 @@ class Bans(commands.Cog):
         except Exception as e:
             await context.reply(e)
             return
-        await context.reply("Unbanned user!")
+        await context.reply(f"Unbanned **{member.name}**")
 
     @commands.command()
     @commands.check(is_sudo)
@@ -111,7 +115,7 @@ class Bans(commands.Cog):
                 await context.reply(e)
                 return
         
-        await context.reply(f"Banned {member.name} globally")
+        await context.reply(f"Globally banned **{member.name}**")
 
 def setup(client: commands.Bot):
     client.add_cog(Bans(client))
