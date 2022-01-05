@@ -4,16 +4,20 @@ from discord.ext import commands
 from config import Config
 
 def is_owner(context: commands.Context) -> bool:
+    """Checks if the user is the owner"""
     return context.author.id in Config.owners
 
 def is_sudo(context: commands.context) -> bool:
+    """Checks if the user is a sudo (dev/owner)"""
     return context.author.id in Config.owners or context.author.id in Config.devs
 
 def can_ban(context: commands.Context) -> bool:
+    """Checks if the user has enough permissions to ban members"""
     member: discord.Member = context.author
     return member.guild_permissions.ban_members or is_sudo(context)
 
 def can_kick(context: commands.Context) -> bool:
+    """Checks if the user has enough permissions to kick members"""
     member: discord.Member = context.author
     return member.guild_permissions.kick_members or is_sudo(context)
 

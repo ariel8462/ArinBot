@@ -5,7 +5,7 @@ from config import Config
 from utils.default import *
 
 #Change name later - from ArinBot to something normal lol
-class ArinBot(commands.Cog):
+class Bot(commands.Cog):
     def __init__(self, client: commands.Bot, *args, **kwargs):
         self.client = client
         
@@ -24,5 +24,5 @@ if __name__ == "__main__":
     intents = discord.Intents.default()
     intents.members = True
     client = commands.Bot(command_prefix=Config.COMMAND_PREFIX, intents=intents, case_insensitive=True)
-    client.add_cog(ArinBot(client))
+    client.add_cog(Bot(client))
     client.run(token)

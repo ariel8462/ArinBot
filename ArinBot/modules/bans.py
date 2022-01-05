@@ -72,7 +72,7 @@ class Bans(commands.Cog):
             member_id = message.author.id
 
         if not member_id:
-            await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}unban <member id>")
+            await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}unban <member id>\n{Config.COMMAND_PREFIX}unban as a reply")
             return
 
         member = await self.client.fetch_user(member_id)

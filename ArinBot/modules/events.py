@@ -9,6 +9,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, context: commands.Context, error: commands.errors) -> None:
+        """Executes if a command errors out"""
         if isinstance(error, CommandNotFound):
             await context.reply("The command specified was not found.")
         elif isinstance(error, MissingPermissions):

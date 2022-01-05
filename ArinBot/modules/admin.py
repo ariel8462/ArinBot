@@ -97,6 +97,7 @@ class Admin(commands.Cog):
     @commands.command()
     @commands.check(is_owner)
     async def leave(self, context: commands.Context):
+        """Forces the bot to leave the current server"""
         try:
             await context.guild.leave()
         except Exception as e:
