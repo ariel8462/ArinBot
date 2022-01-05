@@ -23,6 +23,9 @@ def can_kick(context: commands.Context) -> bool:
 
 async def check_privs(context: commands.Context, member_id: int) -> bool:
     """Check if the bot can act on this user"""
+
+    member: discord.Member = await context.guild.fetch_member(member_id)
+
     try:
         if member_id is context.author.id:
             await context.reply(f"You can't {context.command.name} your self")
@@ -35,6 +38,9 @@ async def check_privs(context: commands.Context, member_id: int) -> bool:
             return False
         elif member_id in Config.devs:
             await context.reply(f"I can't {context.command.name} my devs")
+            return False
+        elif member.guild_permissions.administrator:
+            await context.reply(f"The user is an administrator, I can't {context.command.name} them")
             return False
     except:
         pass

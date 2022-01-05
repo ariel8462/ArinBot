@@ -4,7 +4,6 @@ import os
 from config import Config
 from utils.default import *
 
-#Change name later - from ArinBot to something normal lol
 class Bot(commands.Cog):
     def __init__(self, client: commands.Bot, *args, **kwargs):
         self.client = client

@@ -31,7 +31,7 @@ class Bans(commands.Cog):
         try:
             await context.guild.ban(member)
         except Forbidden:
-            await context.reply("Not enough permissions to ban or the user is an admin")
+            await context.reply("I don't have enough permissions to ban :(")
             return
         except Exception as e:
             await context.reply(e)
@@ -56,7 +56,7 @@ class Bans(commands.Cog):
         try:
             await context.guild.kick(member, reason=reason)
         except Forbidden:
-            await context.reply("Not enough permissions to kick or the user is an admin")
+            await context.reply("I don't have enough permissions to kick :(")
             return
         except Exception as e:
             await context.reply(e)

@@ -27,6 +27,9 @@ class Events(commands.Cog):
         """On each command completion, prints details about the command author in order to help in cases of spam"""
         print(f"{context.author.name} ({context.author.id}) used {Config.COMMAND_PREFIX}{context.command}")
 
+    @commands.Cog.listener()
+    async def on_member_join(self, member: discord.Member) -> None:
+        print(f"{member.name} ({member.id}) joined")
 
 def setup(client: commands.Bot):
     client.add_cog(Events(client))

@@ -116,7 +116,7 @@ class Admin(commands.Cog):
             return
 
         if member.id in Config.devs:
-            await context.reply(f"User is already a dev")
+            await context.reply(f"The user is already a dev")
             return
 
         add_dev(member.id)
@@ -135,7 +135,7 @@ class Admin(commands.Cog):
             return
 
         if member.id not in Config.devs:
-            await context.reply(f"User is not a dev")
+            await context.reply(f"The user is already not a dev")
             return
 
         remove_dev(member.id)
