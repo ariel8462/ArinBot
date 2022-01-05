@@ -1,0 +1,7 @@
+{
+    "token": "Some token",
+    "bot_name": "BotName",
+    "owners": [],
+    "devs": [], 
+    "prefix": "!"
+}

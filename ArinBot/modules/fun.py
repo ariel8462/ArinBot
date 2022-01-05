@@ -7,7 +7,7 @@ import utils.fun as fun
 class Fun(commands.Cog):
     def __init__(self, client: commands.Bot):
         self.client = client
-    
+
     @commands.command()
     async def decide(self, context: commands.Context) -> None:
         """Decides. replies yes/no"""
@@ -48,6 +48,7 @@ class Fun(commands.Cog):
     async def runs(self, context: commands.Context) -> None:
         """Sends a 'runs' string"""
         await context.send(random.choice(fun.RUN_STRINGS))
+
 
 def setup(client: commands.Bot):
     client.add_cog(Fun(client))

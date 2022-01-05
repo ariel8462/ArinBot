@@ -1,7 +1,9 @@
+from os import remove
 import discord
 from discord.ext import commands
 from config import Config
 from utils.permissions import *
+from utils.devs import *
 
 #enable and disable do it across the whole bot, not only one server, fix later
 class Admin(commands.Cog):
@@ -99,6 +101,42 @@ class Admin(commands.Cog):
             await context.guild.leave()
         except Exception as e:
             await context.send(e)
+
+    @commands.command()
+    @commands.check(is_owner)
+    async def promote_dev(self, context: commands.Context, member: discord.Member = None):
+        if context.message.reference is not None:
+            message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
+            member: discord.User = message.author
+
+        if not member:
+            await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}promote_dev <username/id>\n{Config.COMMAND_PREFIX}promote_dev as a reply")
+            return
+
+        if member.id in Config.devs:
+            await context.reply(f"User is already a dev")
+            return
+
+        add_dev(member.id)
+        await context.reply(f"Promoted **{member.name}** to dev")
+
+    @commands.command()
+    @commands.check(is_owner)
+    async def demote_dev(self, context: commands.Context, member: discord.Member = None):
+        if context.message.reference is not None:
+            message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
+            member: discord.User = message.author
+
+        if not member:
+            await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}demote_dev <username/id>\n{Config.COMMAND_PREFIX}demote_dev as a reply")
+            return
+
+        if member.id not in Config.devs:
+            await context.reply(f"User is not a dev")
+            return
+
+        remove_dev(member.id)
+        await context.reply(f"Demoted **{member.name}** from dev")
 
 def setup(client: commands.Bot):
     client.add_cog(Admin(client))

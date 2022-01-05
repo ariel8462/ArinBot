@@ -70,10 +70,24 @@ class Misc(commands.Cog):
             await context.reply(f"Text to echo not specified:\n{Config.COMMAND_PREFIX}echo <text>")
 
     @commands.command()
-    async def invite(self, context: commands.Context):
+    async def invite(self, context: commands.Context) -> None:
         """Sends a bot invite link"""
         await context.reply(discord.utils.oauth_url(self.client.user.id))
 
+    @commands.command()
+    async def avatar(self, context: commands.Context, member: discord.Member = None) -> None:
+        """Sends the avatar of the specified user"""
+        if context.message.reference is not None:
+            message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
+            member: discord.User = message.author
+
+        if member is None:
+            member = context.author
+        
+        message = discord.Embed(title=str(member), color=discord.Colour.blue())
+        message.set_image(url=member.avatar_url)
+
+        await context.send(embed=message)
 
 def setup(client: commands.Bot):
     client.add_cog(Misc(client))

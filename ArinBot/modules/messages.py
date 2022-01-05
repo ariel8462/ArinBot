@@ -63,8 +63,8 @@ class Messages(commands.Cog):
             await context.reply("Message was not found")
         except Forbidden:
             await context.reply("I don't have enough permissions to unpin messages :(")
-        except HTTPException:
-            await context.reply("Failed to unpin")
+        except Exception as e:
+            await context.reply(e)
     
     @commands.command()
     @commands.has_permissions(manage_channels=True)
@@ -78,8 +78,8 @@ class Messages(commands.Cog):
         except Forbidden:
             await context.reply("I don't have enough permissions to unpin messages :(")
             return
-        except HTTPException:
-            await context.reply("Failed to unpin all messages")
+        except Exception as e:
+            await context.reply(e)
             return
         
         await context.reply("Successfully unpinned all messages")
@@ -104,8 +104,8 @@ class Messages(commands.Cog):
             await message.delete()
         except Forbidden:
             await context.reply("I don't have enough permissions to delete messages :(")
-        except HTTPException:
-            await context.reply("Failed to delete the message")
+        except Exception as e:
+            await context.reply(e)
 
     @commands.command()
     @commands.has_permissions(manage_messages=True)

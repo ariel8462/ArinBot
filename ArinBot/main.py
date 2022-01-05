@@ -20,7 +20,7 @@ class ArinBot(commands.Cog):
 
 
 if __name__ == "__main__":
-    token = get_token()
+    token = set_config()
     intents = discord.Intents.default()
     intents.members = True
     client = commands.Bot(command_prefix=Config.COMMAND_PREFIX, intents=intents, case_insensitive=True)
