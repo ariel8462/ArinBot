@@ -38,10 +38,10 @@ class Misc(commands.Cog):
             return
 
         if not nick:
-            await context.reply(f"Resetted the nickname of {member.name}")
+            await context.reply(f"Resetted the nickname of **{member.name}**")
             return
 
-        await context.reply(f"Changed the nickname of {member.name}")
+        await context.reply(f"Changed the nickname of **{member.name}**")
 
     @commands.command(aliases=["count", "member_count"])
     async def members(self,  context: commands.Context):
@@ -106,7 +106,7 @@ class Misc(commands.Cog):
         if not member and not context.message.reference:
             await context.reply(context.author.id)
             return
-        elif context.message.reference is not None and not member:
+        elif context.message.reference and not member:
             message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
             member: discord.User = message.author      
 

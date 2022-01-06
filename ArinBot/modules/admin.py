@@ -90,7 +90,7 @@ class Admin(commands.Cog):
         """Sends a private message to the specified user, only available to the owner"""
         try:
             await member.send(message)
-            await context.send(f"Successfully sent a private message to {member.name}")
+            await context.send(f"Successfully sent a private message to **{member.name}**")
         except:
             await context.send("Failed, maybe he blocked pm's from unknown people")
 
