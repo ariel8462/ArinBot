@@ -89,5 +89,28 @@ class Misc(commands.Cog):
 
         await context.send(embed=message)
 
+    @commands.command()
+    async def server_avatar(self, context: commands.Context) -> None:
+        """Gets the current's server avatar"""
+        if not context.guild.icon:
+            return await context.send("The server doesn't have an avatar")
+
+        message = discord.Embed(title=str(context.guild.name), color=discord.Colour.blue())
+        message.set_image(url=context.guild.icon_url)
+
+        await context.send(embed=message)
+
+    @commands.command()
+    async def id(self, context: commands.Context, member: discord.Member = None) -> None:
+        """Returns the id of the specified user, by tag/reply"""
+        if not member and not context.message.reference:
+            await context.reply(context.author.id)
+            return
+        elif context.message.reference is not None and not member:
+            message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
+            member: discord.User = message.author      
+
+        await context.reply(member.id)  
+
 def setup(client: commands.Bot):
     client.add_cog(Misc(client))
