@@ -25,11 +25,28 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_command_completion(self, context: commands.Context) -> None:
         """On each command completion, prints details about the command author in order to help in cases of spam"""
-        print(f"{context.author.name} ({context.author.id}) used {Config.COMMAND_PREFIX}{context.command}")
+        print(f"[X] {context.author.name} ({context.author.id}) used {Config.COMMAND_PREFIX}{context.command}")
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member) -> None:
-        print(f"{member.name} ({member.id}) joined")
+        print(f"[+] {member.name} ({member.id}) joined")
+
+    @commands.Cog.listener()
+    async def on_guild_join(self, guild: discord.Guild) -> None:
+        """Adds the role 'muted-<BOT_NAME>' for future mutes"""
+        print(f"[+] Joined '{guild.name}'")
+
+        muted_role: discord.role.Role = next((r for r in guild.roles if r.name == f"muted-{Config.BOT_NAME}"), None)
+
+        if muted_role:
+            return
+        else:
+            muted_role = await guild.create_role(name=f"muted-{Config.BOT_NAME}", permissions=discord.Permissions(2147746368))
+
+        for channel in guild.channels:
+            await channel.set_permissions(muted_role, send_messages=False)
+
+        print(f"[+] Added role for future mutes in '{guild.name}'")
 
 def setup(client: commands.Bot):
     client.add_cog(Events(client))

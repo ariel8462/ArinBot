@@ -28,7 +28,7 @@ class Mute(commands.Cog):
         try:
             await member.add_roles(muted_role, reason=reason)
         except Forbidden:
-            await context.reply("I don't have enough permissions to mute :(")
+            await context.reply("I don't have enough permissions to mute :(, move my role higher")
             return
         await context.reply(f"Successfully muted **{member.name}**")
 
