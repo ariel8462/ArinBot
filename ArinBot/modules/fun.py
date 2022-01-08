@@ -13,7 +13,7 @@ class Fun(commands.Cog):
         """Decides. replies yes/no"""
         await context.reply(random.choice(["Yes", "No", "Maybe"]))
 
-    @commands.command(aliases=["toss"])
+    @commands.command(aliases=["flip"])
     async def coin(self, context: commands.Context) -> None:
         """Tosses a coin"""
         await context.reply(random.choice(["Heads", "Tails"]))

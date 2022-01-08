@@ -7,7 +7,7 @@ from config import Config
 class Mute(commands.Cog):
     def __init__(self, client: commands.Bot):
         self.client = client
-    
+
     @commands.command()
     @commands.has_permissions(manage_roles=True)
     async def mute(self, context: commands.Context, member: discord.Member = None, *, reason: str = "Reason not specified") -> None:
@@ -59,7 +59,7 @@ class Mute(commands.Cog):
             await context.reply("I don't have enough permissions to unmute :(")
             return
         await context.reply(f"Successfully unmuted **{member.name}**")
-        
+ 
     @commands.command()
     @commands.has_permissions(manage_roles=True)
     async def addrolemute(self, context: commands.Context) -> None:

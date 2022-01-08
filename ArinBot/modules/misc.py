@@ -46,7 +46,7 @@ class Misc(commands.Cog):
     @commands.command(aliases=["count", "member_count"])
     async def members(self,  context: commands.Context):
         """Sends the member count"""
-        await context.send(f"The server has {context.guild.member_count} members")
+        await context.send(f"The server has **{context.guild.member_count}** members")
 
     @commands.command()
     @commands.check(is_sudo)
@@ -111,6 +111,21 @@ class Misc(commands.Cog):
             member: discord.User = message.author      
 
         await context.reply(member.id)  
+
+    @commands.command()
+    async def roles(self, context: commands.Context) -> None:
+        """Gets all the roles in an hierarchical order"""
+        description: str = ""
+        count: int = 0
+        role: discord.Role
+        
+        for role in context.guild.roles[::-1]:
+            description += f"{role.mention}\n"
+            count += 1
+
+        embed = discord.Embed(title=f"Roles[{count}]", color=discord.Colour.blue(), description=description)
+        await context.send(embed=embed)
+
 
 def setup(client: commands.Bot):
     client.add_cog(Misc(client))
