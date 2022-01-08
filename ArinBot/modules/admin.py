@@ -141,5 +141,6 @@ class Admin(commands.Cog):
         remove_dev(member.id)
         await context.reply(f"Demoted **{member.name}** from dev")
 
+
 def setup(client: commands.Bot):
     client.add_cog(Admin(client))
