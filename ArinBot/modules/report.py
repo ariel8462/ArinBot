@@ -20,7 +20,7 @@ class Report(commands.Cog):
         if not await check_privs(context, user.id):
             return
         
-        embed = discord.Embed(title=":warning: Report Incoming", description=f"Server: **{context.guild.name}**\nReported Message: [message]({message.jump_url})\nFrom User: **{context.author}**\nReason: **{reason}**",
+        embed = discord.Embed(title=":warning: Report Incoming", description=f"Server: **{context.guild.name}**\nReported Message: [message]({message.jump_url})\nReported User: **{user}**\nReason: **{reason}**\nMessage Content: **{message.content}**\nReporting User: **{context.author}**",
         color=discord.Colour.red())
 
         admin_roles = [role for role in context.guild.roles if role.permissions.administrator]
@@ -31,6 +31,7 @@ class Report(commands.Cog):
                     await member.send(embed=embed)
 
         await context.send(f"Successfully reported the message of **{user}**")
+
 
 def setup(client: commands.Bot):
     client.add_cog(Report(client))
