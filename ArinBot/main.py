@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
 import os
-from config import Config
 from utils.default import *
 
 class Bot(commands.Cog):
@@ -19,10 +18,4 @@ class Bot(commands.Cog):
 
 
 if __name__ == "__main__":
-    token = set_config()
-    intents = discord.Intents.default()
-    intents.members = True
-    intents.guilds = True
-    client = commands.Bot(command_prefix=Config.COMMAND_PREFIX, intents=intents, case_insensitive=True)
-    client.add_cog(Bot(client))
-    client.run(token)
+    start_bot(Bot)

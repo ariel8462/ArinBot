@@ -117,5 +117,6 @@ class Bans(commands.Cog):
         
         await context.reply(f"Globally banned **{member.name}**")
 
+
 def setup(client: commands.Bot):
     client.add_cog(Bans(client))

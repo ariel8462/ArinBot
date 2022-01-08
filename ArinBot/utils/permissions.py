@@ -23,7 +23,6 @@ def can_kick(context: commands.Context) -> bool:
 
 async def check_privs(context: commands.Context, member_id: int) -> bool:
     """Checks if the bot can act on the specified user"""
-
     member: discord.Member = await context.guild.fetch_member(member_id)
 
     try:

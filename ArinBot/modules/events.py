@@ -48,5 +48,6 @@ class Events(commands.Cog):
 
         print(f"[+] Added role for future mutes in '{guild.name}'")
 
+
 def setup(client: commands.Bot):
     client.add_cog(Events(client))
