@@ -167,3 +167,10 @@ RUN_STRINGS = (
     "Ah, what a waste. I liked that one.",
     "As The Doctor would say... RUN!",
 )
+
+def replace_text(text: str) -> str:
+    return text.replace(
+        '[', '',
+    ).replace(
+        ']', '',
+        )
