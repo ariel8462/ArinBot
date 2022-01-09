@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from discord.ext.commands.errors import CheckFailure, CommandNotFound, DisabledCommand, MissingPermissions
+from discord.ext.commands.errors import CheckFailure, CommandNotFound, DisabledCommand, MemberNotFound, MissingPermissions
 from config import Config
 
 class Events(commands.Cog):
@@ -11,13 +11,18 @@ class Events(commands.Cog):
     async def on_command_error(self, context: commands.Context, error: commands.errors) -> None:
         """Executes if a command errors out"""
         if isinstance(error, CommandNotFound):
-            await context.reply("The command specified was not found.")
-        elif isinstance(error, MissingPermissions):
+            return
+        if isinstance(error, MissingPermissions):
             await context.reply("You don't have enough permissions for this command.")
         elif isinstance(error, DisabledCommand):
-            pass
+            return
         elif isinstance(error, CheckFailure):
-            pass
+            return
+        elif isinstance(error, MemberNotFound):
+            if context.message.reference:
+                await context.invoke(context.command)
+            else:
+                await context.send(error)
         else:
             await context.reply(error)
         return
@@ -25,7 +30,7 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_command_completion(self, context: commands.Context) -> None:
         """On each command completion, prints details about the command author in order to help in cases of spam"""
-        print(f"[X] {context.author.name} ({context.author.id}) used {Config.COMMAND_PREFIX}{context.command}")
+        print(f"[#] {context.author} ({context.author.id}) used {Config.COMMAND_PREFIX}{context.command}")
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member) -> None:

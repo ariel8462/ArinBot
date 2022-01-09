@@ -21,7 +21,7 @@ class Report(commands.Cog):
             return
         
         embed = discord.Embed(title=":warning: Report Incoming", description=f"Server: **{context.guild.name}**\nReported Message: [message]({message.jump_url})\nReported User: **{user}**\nReason: **{reason}**\nMessage Content: **{message.content}**\nReporting User: **{context.author}**",
-        color=discord.Colour.red())
+        color=discord.Color.red())
 
         admin_roles = [role for role in context.guild.roles if role.permissions.administrator]
 

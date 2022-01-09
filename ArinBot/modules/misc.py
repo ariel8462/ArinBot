@@ -84,7 +84,7 @@ class Misc(commands.Cog):
         if member is None:
             member = context.author
         
-        message = discord.Embed(title=str(member), color=discord.Colour.blue())
+        message = discord.Embed(title=str(member), color=discord.Color.blue())
         message.set_image(url=member.avatar_url)
 
         await context.send(embed=message)
@@ -95,7 +95,7 @@ class Misc(commands.Cog):
         if not context.guild.icon:
             return await context.send("The server doesn't have an avatar")
 
-        message = discord.Embed(title=str(context.guild.name), color=discord.Colour.blue())
+        message = discord.Embed(title=str(context.guild.name), color=discord.Color.blue())
         message.set_image(url=context.guild.icon_url)
 
         await context.send(embed=message)
@@ -123,7 +123,7 @@ class Misc(commands.Cog):
             description += f"{role.mention}\n"
             count += 1
 
-        embed = discord.Embed(title=f"Roles[{count}]", color=discord.Colour.blue(), description=description)
+        embed = discord.Embed(title=f"Roles[{count}]", color=discord.Color.blue(), description=description)
         await context.send(embed=embed)
 
 

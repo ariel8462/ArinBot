@@ -118,6 +118,9 @@ class Admin(commands.Cog):
         if member.id in Config.devs:
             await context.reply(f"The user is already a dev")
             return
+        elif member.id in Config.owners:
+            await context.reply(f"The user is the bot owner")
+            return
 
         add_dev(member.id)
         await context.reply(f"Promoted **{member.name}** to dev")

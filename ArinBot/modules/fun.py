@@ -51,7 +51,7 @@ class Fun(commands.Cog):
         await context.send(random.choice(fun.RUN_STRINGS))
 
     @commands.command()
-    async def ud(self, context: commands.Context, *, word: str):
+    async def ud(self, context: commands.Context, *, word: str) -> None:
         """Searches a term on Urban Dictionary"""
         async with aiohttp.ClientSession() as session:
             async with session.get(f"https://api.urbandictionary.com/v0/define?term={word}") as response:
@@ -66,8 +66,9 @@ class Fun(commands.Cog):
             await context.reply(e)
             return
         
-        embed = discord.Embed(title=word, description=f"{definition}\n\n*{examples}*")
-        await context.reply(embed=embed)
+        embed = discord.Embed(title=word, description=f"{definition}\n\n*{examples}*", color=discord.Color.orange())
+        await context.send(embed=embed)
+
 
 def setup(client: commands.Bot):
     client.add_cog(Fun(client))
