@@ -56,6 +56,7 @@ class Fun(commands.Cog):
         async with aiohttp.ClientSession() as session:
             async with session.get(f"https://api.urbandictionary.com/v0/define?term={word}") as response:
                 text = await response.json()
+
         try:
             definition = fun.replace_text(text['list'][0]['definition'])
             examples = fun.replace_text(text['list'][0]['example'])

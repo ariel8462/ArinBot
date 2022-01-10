@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from discord.ext.commands.errors import CheckFailure, CommandNotFound, DisabledCommand, MemberNotFound, MissingPermissions
 from config import Config
+from utils.log import *
 
 class Events(commands.Cog):
     def __init__(self, client: commands.Bot):
@@ -24,22 +25,22 @@ class Events(commands.Cog):
             else:
                 await context.send(error)
         else:
-            await context.reply(error)
+            logger.error(f"[-] Unknown error: {error}")
         return
 
     @commands.Cog.listener()
     async def on_command_completion(self, context: commands.Context) -> None:
-        """On each command completion, prints details about the command author in order to help in cases of spam"""
-        print(f"[#] {context.author} ({context.author.id}) used {Config.COMMAND_PREFIX}{context.command}")
+        """On each command completion, logs details about the command author in order to help in cases of spam"""
+        logger.info(f"[#] {context.author} ({context.author.id}) used {Config.COMMAND_PREFIX}{context.command}")
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member) -> None:
-        print(f"[+] {member.name} ({member.id}) joined")
+        logger.info(f"[+] {member.name} ({member.id}) joined")
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild: discord.Guild) -> None:
         """Adds the role 'muted-<BOT_NAME>' for future mutes"""
-        print(f"[+] Joined '{guild.name}'")
+        logger.info(f"[+] Joined '{guild.name}'")
 
         muted_role: discord.role.Role = next((r for r in guild.roles if r.name == f"muted-{Config.BOT_NAME}"), None)
 
@@ -51,7 +52,7 @@ class Events(commands.Cog):
         for channel in guild.channels:
             await channel.set_permissions(muted_role, send_messages=False)
 
-        print(f"[+] Added role for future mutes in '{guild.name}'")
+        logger.info(f"[+] Added role for future mutes in '{guild.name}'")
 
 
 def setup(client: commands.Bot):

@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import os
 from utils.default import *
+from utils.log import *
 
 class Bot(commands.Cog):
     def __init__(self, client: commands.Bot, *args, **kwargs):
@@ -11,7 +12,7 @@ class Bot(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self) -> None:
-        print("--- The bot is up ---")
+        logger.info("---the bot is up---")
         for file in os.listdir("modules/"):
             if file.endswith(".py"):
                 self.client.load_extension(f"modules.{file[:-3]}")

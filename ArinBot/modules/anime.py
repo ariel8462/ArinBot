@@ -16,23 +16,13 @@ class Anime(commands.Cog):
             async with session.post(url, json={'query': anime_query, 'variables': variables}) as resp:
                 json = await resp.json()
                 json = json["data"]["Media"]
-
+        
         if not json:
-            await context.reply("No such anime or the site is down")
+            await context.reply("Anime not found")
             return
 
         try:
-            json['description'] = json["description"].replace(
-                '<br>', '', 
-            ).replace(
-                '</br>', '',
-            ).replace(
-                '<i>', '', 
-            ).replace(
-                '<i/>', '', 
-            ).replace(
-                '</i>', '', 
-                )
+            json['description'] = clean_html(json['description'])
         except:
             pass
         
@@ -44,11 +34,57 @@ class Anime(commands.Cog):
 
         embed: discord.Embed = discord.Embed(title=f"{json['title']['romaji']}",
         description=f"Type: {json['format']}\nStatus: {json['status']}\nEpisodes: {json['episodes']}\nDuration: \
-        {json['duration']}\nScore: {json['averageScore']}\nGenres: {', '.join(json['genres'])}\nStudios: {studios_string}\n\n{json['description']}",
-        color=0x3577ff)
+        {json['duration']}\nScore: {json['averageScore']}\nGenres: {', '.join(json['genres'])}\nStudios: {studios_string}\n\n{json['description']}")
+        
+        try:
+            embed.color=int(json['coverImage']['color'][1:], 16)
+        except TypeError:
+            embed.color=0x3577ff
 
         if json['bannerImage']:
             embed.set_image(url=json['bannerImage'])
+
+        try:
+            embed.set_thumbnail(url=json['coverImage']['extraLarge'])
+        except:
+            pass
+        
+        await context.send(embed=embed)
+
+    @commands.command()
+    async def manga(self, context: commands.Context, *, manga: str) -> None:
+        """Shows details about the specified manga"""
+        variables = {'search': manga}
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, json={'query': manga_query, 'variables': variables}) as resp:
+                json = await resp.json()
+                json = json["data"]["Media"]
+
+        if not json:
+            await context.reply("Manga not found")
+            return     
+
+        try:
+            json['description'] = clean_html(json['description'])
+        except:
+            pass
+
+        embed: discord.Embed = discord.Embed(title=f"{json['title']['romaji']}",
+        description=f"Type: {json['format']}\nStatus: {json['status']}\nChapters: {json['chapters']}\nVolumes: \
+        {json['volumes']}\nScore: {json['averageScore']}\nGenres: {', '.join(json['genres'])}\n\n{json['description']}")
+        
+        try:
+            embed.color=int(json['coverImage']['color'][1:], 16)
+        except TypeError:
+            embed.color=0x3577ff
+
+        if json['bannerImage']:
+            embed.set_image(url=json['bannerImage'])
+
+        try:
+            embed.set_thumbnail(url=json['coverImage']['extraLarge'])
+        except:
+            pass
         
         await context.send(embed=embed)
 
