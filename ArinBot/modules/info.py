@@ -6,8 +6,9 @@ class Info(commands.Cog):
     def __init__(self, client: commands.Bot):
         self.client = client
     
-    @commands.command(aliases=["whois"])
+    @commands.command()
     async def info(self, context: commands.Context, member: discord.Member = None) -> None:
+        """Shows info about the specified user"""
         if context.message.reference and not member:
             message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
             member: discord.User = message.author
@@ -25,9 +26,14 @@ class Info(commands.Cog):
         
         if acknowledgements_string:
             embed.add_field(name="Acknowledgements", value=acknowledgements_string)
+            
+        if member.id != context.bot.user.id:
+            embed.add_field(name="Groups In Common", value=len(member.mutual_guilds), inline=False)
+        else:
+            embed.add_field(name="Groups In Common", value="All of them, duh", inline=False)
 
         embed.set_footer(text=f"ID: {member.id}")
-
+        
         await context.send(embed=embed)
 
 

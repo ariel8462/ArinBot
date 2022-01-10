@@ -144,6 +144,12 @@ class Admin(commands.Cog):
         remove_dev(member.id)
         await context.reply(f"Demoted **{member.name}** from dev")
 
+    @commands.command()
+    @commands.check(is_sudo)
+    async def group_count(self, context: commands.Context) -> None:
+        """Sends the count of groups the bot is in"""
+        await context.send(f"I am in **{len(self.client.guilds)}** groups")
+
 
 def setup(client: commands.Bot):
     client.add_cog(Admin(client))
