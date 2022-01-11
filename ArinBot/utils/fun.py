@@ -173,4 +173,4 @@ def replace_text(text: str) -> str:
         '[', '',
     ).replace(
         ']', '',
-        )
+    )

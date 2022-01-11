@@ -3,7 +3,6 @@ from discord.ext import commands
 from config import Config
 import json
 
-
 def set_config() -> str:
     """Sets the bot config using the settings specified in 'config.json'"""
     with open("config.json", 'r') as file:

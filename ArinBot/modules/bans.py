@@ -11,7 +11,7 @@ class Bans(commands.Cog):
 
     @commands.command()
     @commands.check(can_ban)
-    async def ban(self, context: commands.Context, member: discord.Member = None, *, reason: str = "Reason not specified") -> None:
+    async def ban(self, context: commands.Context, member: discord.User = None, *, reason: str = "Reason not specified") -> None:
         """Bans the specified user"""
         if context.message.reference is not None:
             message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
@@ -65,17 +65,16 @@ class Bans(commands.Cog):
 
     @commands.command()
     @commands.check(can_ban)
-    async def unban(self,  context: commands.Context, member_id: int = None) -> None:
+    async def unban(self,  context: commands.Context, member: discord.User = None) -> None:
         """Unbans the specified user"""
+        print("here")
         if context.message.reference is not None:
             message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
-            member_id = message.author.id
+            member: discord.User = message.author
 
-        if not member_id:
-            await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}unban <member id>\n{Config.COMMAND_PREFIX}unban as a reply")
+        if not member:
+            await context.reply(f"No user spcified:\n{Config.COMMAND_PREFIX}unban <member/id>\n{Config.COMMAND_PREFIX}unban as a reply")
             return
-
-        member = await self.client.fetch_user(member_id)
 
         if not await is_banned(context, member):
             await context.reply("The user is not even banned")
@@ -93,7 +92,7 @@ class Bans(commands.Cog):
 
     @commands.command()
     @commands.check(is_sudo)
-    async def gban(self, context: commands.Context, member: discord.Member = None, *, reason: str = "Gban - the user got globally banned") -> None:
+    async def gban(self, context: commands.Context, member: discord.User = None, *, reason: str = "Gban - the user got globally banned") -> None:
         """Bans a certain user across the whole bot, only avaiable to devs and owners"""
         if context.message.reference is not None:
             message: discord.Message = await context.channel.fetch_message(context.message.reference.message_id)
