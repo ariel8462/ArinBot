@@ -5,8 +5,9 @@ url = 'https://graphql.anilist.co'
 CLEANR = re.compile('<.*?>') 
 
 def clean_html(raw_html: str) -> str:
-  clean_text = re.sub(CLEANR, '', raw_html)
-  return clean_text
+    """Removes all html tags from the string"""
+    clean_text = re.sub(CLEANR, '', raw_html)
+    return clean_text
 
 anime_query = """
 query ($id: Int, $search: String) {

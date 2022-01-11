@@ -15,26 +15,28 @@ class Anime(commands.Cog):
         async with aiohttp.ClientSession() as session:
             async with session.post(url, json={'query': anime_query, 'variables': variables}) as resp:
                 json = await resp.json()
-                json = json["data"]["Media"]
-        
+
         if not json:
             await context.reply("Anime not found")
             return
+        else:
+            json = json["data"]["Media"]
 
         try:
             json['description'] = clean_html(json['description'])
         except:
             pass
         
-        studios_string= ""
+        anime_studios= ""
 
         for studio in json['studios']['nodes']:
-            studios_string += f"{studio['name']}, "
-        studios_string = studios_string [:-2]
+            anime_studios += f"{studio['name']}, "
+        studios_string = anime_studios[:-2]
 
         embed: discord.Embed = discord.Embed(title=f"{json['title']['romaji']}",
         description=f"Type: {json['format']}\nStatus: {json['status']}\nEpisodes: {json['episodes']}\nDuration: \
-        {json['duration']}\nScore: {json['averageScore']}\nGenres: {', '.join(json['genres'])}\nStudios: {studios_string}\n\n{json['description']}")
+        {json['duration']}\nScore: {json['averageScore']}\nGenres: {', '.join(json['genres'])}\nStudios: \
+        {studios_string}\n\n{json['description']}")
         
         try:
             embed.color=int(json['coverImage']['color'][1:], 16)
@@ -58,11 +60,12 @@ class Anime(commands.Cog):
         async with aiohttp.ClientSession() as session:
             async with session.post(url, json={'query': manga_query, 'variables': variables}) as resp:
                 json = await resp.json()
-                json = json["data"]["Media"]
 
         if not json:
             await context.reply("Manga not found")
-            return     
+            return
+        else:
+            json = json["data"]["Media"]
 
         try:
             json['description'] = clean_html(json['description'])
