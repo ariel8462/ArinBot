@@ -3,7 +3,6 @@ from discord.ext import commands
 import aiohttp
 from utils.anime import *
 
-#add manga function, and maybe character one as well - to do
 class Anime(commands.Cog):
     def __init__(self, client: commands.Bot):
         self.client = client
@@ -16,11 +15,14 @@ class Anime(commands.Cog):
             async with session.post(url, json={'query': anime_query, 'variables': variables}) as resp:
                 json = await resp.json()
 
-        if not json:
-            await context.reply("Anime not found")
-            return
-        else:
+        try:
             json = json["data"]["Media"]
+        except:
+            return
+
+        if not json:
+            await context.reply("Anime not found!")
+            return
 
         try:
             json['description'] = clean_html(json['description'])
@@ -61,11 +63,14 @@ class Anime(commands.Cog):
             async with session.post(url, json={'query': manga_query, 'variables': variables}) as resp:
                 json = await resp.json()
 
-        if not json:
-            await context.reply("Manga not found")
-            return
-        else:
+        try:
             json = json["data"]["Media"]
+        except:
+            return
+
+        if not json:
+            await context.reply("Manga not found!")
+            return
 
         try:
             json['description'] = clean_html(json['description'])

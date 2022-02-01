@@ -23,5 +23,6 @@ class FreeGame(commands.Cog):
         #make it look better - to do
         await context.send(f"{link}\n{description}")
 
+
 def setup(client: commands.Bot):
     client.add_cog(FreeGame(client))

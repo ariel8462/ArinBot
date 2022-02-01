@@ -70,3 +70,20 @@ query ($id: Int, $search: String) {
   }
 }
 """
+
+character_query = """
+query ($id: Int, $search: String) {
+  Character(id: $id, search: $search) {
+    id
+    name {
+      full
+    }
+    gender
+    age
+    image {
+      large
+    }
+    description
+	}
+}
+"""
